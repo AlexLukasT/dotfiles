@@ -176,7 +176,7 @@ exec --no-startup-id "setxkbmap de -option 'grp:alt_shift_toggle'"
 for_window [class=".*"] border pixel 0
 
 # gaps between windows
-gaps inner 15
+gaps inner 20
 
 # rounded corner radius
 border_radius 0
@@ -206,7 +206,7 @@ exec --no-startup-id "/home/alex/.gem/ruby/2.7.0/bin/fusuma"
 exec --no-startup-id "compton -b --config /home/alex/.config/compton/compton.conf"
 
 # lock the screen, shutdown and reboot
-bindsym $mod+Mod1+l exec --no-startup-id $HOME/scripts/i3lock-blur/lock.sh
+bindsym $mod+Mod1+l exec --no-startup-id $HOME/scripts/lock.sh -l blur
 bindsym $mod+Mod1+s exec --no-startup-id systemctl poweroff
 bindsym $mod+Mod1+r exec --no-startup-id systemctl reboot
 bindsym $mod+Mod1+e exec --no-startup-id i3-msg exit
