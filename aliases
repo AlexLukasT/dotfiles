@@ -1,0 +1,4 @@
+alias ls="ls --group-directories-first --color=auto"
+alias l="ls"
+alias la="ls -A"
+alias v="nvim"

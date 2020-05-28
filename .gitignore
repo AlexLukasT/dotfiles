@@ -1,0 +1,10 @@
+# ignore the whole config folder by default
+config/*
+
+# include specific folders again
+!config/alacritty
+!config/fusuma
+!config/polybar
+!config/compton
+!config/i3
+!config/nvim/init.vim
