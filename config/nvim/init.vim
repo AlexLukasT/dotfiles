@@ -15,6 +15,10 @@ set undodir=~/.vim/undodir
 set undofile
 set incsearch
 
+" turn hybrid line numbers on
+:set number relativenumber
+:set nu rnu
+
 " Uncomment the following to have Vim jump to the last position when                                                       
 " reopening a file
 if has("autocmd")
@@ -38,8 +42,15 @@ Plug 'tpope/vim-commentary'  "easy commenting
 call plug#end()
 
 colorscheme gruvbox  "set colorscheme
+
 " make colorscheme background transparent to use default terminal background
 hi Normal guibg=NONE ctermbg=NONE  
+
+" fix hightlight of current line number with transparent background
+hi CursorLineNr ctermbg=None guibg=None
+
+" fix background color of split lines with transparent background
+hi VertSplit ctermbg=None
 
 " open nerdtree automatically even when no files are specified
 autocmd StdinReadPre * let s:std_in=1
