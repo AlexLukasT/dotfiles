@@ -33,6 +33,7 @@ Plug 'valloric/youcompleteme'  "autocompletion
 Plug 'vim-airline/vim-airline'  "status bar
 Plug 'ctrlpvim/ctrlp.vim'  "file finder
 Plug 'rking/ag.vim'  "text search
+Plug 'tpope/vim-commentary'  "easy commenting
 
 call plug#end()
 

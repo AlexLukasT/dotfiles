@@ -191,7 +191,7 @@ bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 20"
 bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 20" 
 
 # set background image
-exec --no-startup-id "feh --bg-fill ~/Pictures/background.jpg"
+exec --no-startup-id "feh --bg-fill ~/git/dotfiles/background.jpg"
 
 # run rofi launcher
 bindsym $mod+r exec --no-startup-id "rofi -show run -lines 10"

@@ -128,3 +128,6 @@ export PATH=$PATH:$HOME/.local/bin
 # load nvm: ONLY ACTIVATE WHEN USING, THIS SLOWS DOWN THE START OF ZSH BY A LOT! 
 # export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+# change color of suggestions to have a larger contrast to the background
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#919191"
