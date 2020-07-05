@@ -129,5 +129,22 @@ export PATH=$PATH:$HOME/.local/bin
 # export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
+# Solution from https://github.com/nvm-sh/nvm/issues/1277#issuecomment-536218082
+# lazy loading the bash completions does not save us meaningful shell startup time, so we won't do it
+export NVM_DIR="$HOME/.nvm"
+# add our default nvm node (`nvm alias default 10.16.0`) to path without loading nvm
+export PATH="$NVM_DIR/versions/node/v14.3.0/bin:$PATH"
+# alias `nvm` to this one liner lazy load of the normal nvm script
+alias nvm="unalias nvm; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; nvm $@"
+
 # change color of suggestions to have a larger contrast to the background
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#919191"
+
+# remove underline of file paths
+# see https://github.com/zsh-users/zsh-syntax-highlighting/issues/573
+(( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]=none
+ZSH_HIGHLIGHT_STYLES[path_prefix]=none
+
+# set default editor
+export EDITOR=nvim
