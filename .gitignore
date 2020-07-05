@@ -8,3 +8,6 @@ config/*
 !config/compton
 !config/i3
 !config/nvim/init.vim
+
+# exclude script for screen locking
+scripts/lock.sh

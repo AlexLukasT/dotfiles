@@ -221,9 +221,6 @@ mode "spotify" {
     bindsym Escape mode "default"
 }
 
-# run script for dual monitor setup with xrandr
-# exec --no-startup-id "$HOME/scripts/dualmon.sh"
-
 # resizing windows
 bindsym $mod+Ctrl+Right resize shrink width 1 px or 1 ppt
 bindsym $mod+Ctrl+Up resize grow height 1 px or 1 ppt
@@ -239,7 +236,7 @@ workspace 5 output HDMI-2
 workspace 6 output DP-1
 
 # adjust monitor setup with xrandr for work 
-exec --no-startup-id "/usr/bin/python3 /home/alex/scripts/setup_monitors.py"
+exec --no-startup-id "/usr/bin/python3 /home/alex/git/dotfiles/scripts/setup_monitors.py"
 
 # start owncloud-client for sciebo sync
 exec --no-startup-id "/usr/bin/owncloud"
