@@ -194,7 +194,7 @@ bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 20"
 exec --no-startup-id "feh --bg-fill ~/git/dotfiles/background.jpg"
 
 # run rofi launcher
-bindsym $mod+r exec --no-startup-id "rofi -show run -lines 10"
+bindsym $mod+r exec --no-startup-id "rofi -show drun -modi drun"
 
 # start polybar
 exec --no-startup-id "polybar top"
@@ -220,3 +220,26 @@ mode "spotify" {
     bindsym p exec --no-startup-id "playerctl previous"; mode "default"
     bindsym Escape mode "default"
 }
+
+# run script for dual monitor setup with xrandr
+# exec --no-startup-id "$HOME/scripts/dualmon.sh"
+
+# resizing windows
+bindsym $mod+Ctrl+Right resize shrink width 1 px or 1 ppt
+bindsym $mod+Ctrl+Up resize grow height 1 px or 1 ppt
+bindsym $mod+Ctrl+Down resize shrink height 1 px or 1 ppt
+bindsym $mod+Ctrl+Left resize grow width 1 px or 1 ppt
+
+# assign different workspaces to monitors
+workspace 1 output HDMI-2
+workspace 2 output DP-1
+workspace 3 output HDMI-2
+workspace 4 output DP-1
+workspace 5 output HDMI-2
+workspace 6 output DP-1
+
+# adjust monitor setup with xrandr for work 
+exec --no-startup-id "/usr/bin/python3 /home/alex/scripts/setup_monitors.py"
+
+# start owncloud-client for sciebo sync
+exec --no-startup-id "/usr/bin/owncloud"
