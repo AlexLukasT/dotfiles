@@ -68,7 +68,7 @@ let NERDTreeMapActivateNode = "l"
 let NERDTreeMapCloseDir = "h"
 
 " remap escape key
-inoremap jj <Esc>
+inoremap jk <Esc>
 
 " CtrlP uses ag by default
 if executable('ag')
@@ -148,3 +148,14 @@ nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
 
 " coc open definition in a new tab
 nnoremap <silent> <leader>vgd :vsplit \| :wincmd l \| <Plug>(coc-definition)<CR>
+
+" block jump using curly braces
+nnoremap <silent> <S-j> }
+nnoremap <silent> <S-k> {
+
+" add a semicolon at the end of the line
+inoremap <leader>sc <C-o>A;
+
+" move selected lines up or down
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
