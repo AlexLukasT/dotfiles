@@ -27,6 +27,7 @@ height = 30
 offset-x = 0
 offset-y = 0
 bottom = false
+enable-ipc = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}

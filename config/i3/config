@@ -76,9 +76,9 @@ bindsym $mod+minus split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-# bindsym $mod+s layout stacking
-# bindsym $mod+t layout tabbed
-# bindsym $mod+e layout toggle split
+ bindsym $mod+s layout stacking
+ bindsym $mod+t layout tabbed
+ bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -206,20 +206,20 @@ exec --no-startup-id "/home/alex/.gem/ruby/2.7.0/bin/fusuma"
 exec --no-startup-id "compton -b --config /home/alex/.config/compton/compton.conf"
 
 # lock the screen, shutdown and reboot
-bindsym $mod+Mod1+l exec --no-startup-id $HOME/scripts/lock.sh -l blur
+bindsym $mod+Mod1+l exec --no-startup-id "$HOME/git/dotfiles/scripts/lock.sh -l blur"
 bindsym $mod+Mod1+s exec --no-startup-id systemctl poweroff
 bindsym $mod+Mod1+r exec --no-startup-id systemctl reboot
 bindsym $mod+Mod1+e exec --no-startup-id i3-msg exit
 
 # pressing windows+s activates spotify mode
-bindsym $mod+s mode "spotify"
+#bindsym $mod+s mode "spotify"
 
-mode "spotify" {
-    bindsym p exec --no-startup-id "playerctl play-pause"; mode "default"
-    bindsym n exec --no-startup-id "playerctl next"; mode "default"
-    bindsym p exec --no-startup-id "playerctl previous"; mode "default"
-    bindsym Escape mode "default"
-}
+#mode "spotify" {
+    #bindsym p exec --no-startup-id "playerctl play-pause"; mode "default"
+    #bindsym n exec --no-startup-id "playerctl next"; mode "default"
+    #bindsym p exec --no-startup-id "playerctl previous"; mode "default"
+    #bindsym Escape mode "default"
+#}
 
 # resizing windows
 bindsym $mod+Ctrl+Right resize shrink width 1 px or 1 ppt
@@ -234,9 +234,15 @@ workspace 3 output HDMI-2
 workspace 4 output DP-1
 workspace 5 output HDMI-2
 workspace 6 output DP-1
+workspace 7 output HDMI-2
 
 # adjust monitor setup with xrandr for work 
 exec --no-startup-id "/usr/bin/python3 /home/alex/git/dotfiles/scripts/setup_monitors.py"
 
 # start owncloud-client for sciebo sync
 exec --no-startup-id "/usr/bin/owncloud"
+
+# start dunst notification manager
+exec --no-startup-id "/usr/bin/dunst"
+
+bindsym $mod+p exec --no-startup-id "polybar-msg cmd toggle"

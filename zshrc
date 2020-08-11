@@ -148,3 +148,28 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=none
 
 # set default editor
 export EDITOR=nvim
+
+export PATH=/usr/local/cuda-10.1/bin/:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64:$LD_LIBRARY_PATH
+
+# enable vim mode
+#set -o vi
+
+# remap keys for accepting autosuggestions
+#bindkey 'K' autosuggest-accept
+#bindkey 'L' autosuggest-execute
+
+# fix xclip throwing an error on shell startup when the clipboard is empty
+# see: https://github.com/astrand/xclip/issues/38
+echo tmp | xclip -i
+
+# save path on cd
+function cd {
+    builtin cd $@
+    pwd > ~/.last_dir
+}
+
+# restore last saved path
+if [ -f ~/.last_dir ]
+    then cd `cat ~/.last_dir`
+fi
