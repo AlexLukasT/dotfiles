@@ -1,3 +1,4 @@
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -71,6 +72,8 @@ ZSH_THEME="robbyrussell"
 plugins=(git
 	zsh-syntax-highlighting
 	zsh-autosuggestions
+    docker
+    docker-compose
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -104,9 +107,6 @@ source $ZSH/oh-my-zsh.sh
 # load aliases
 source $HOME/.aliases
 
-# LSCOLORS
-. /usr/share/LS_COLORS/dircolors.sh
-
 # allow placeholders
 setopt +o nomatch
 
@@ -133,7 +133,7 @@ export PATH=$PATH:$HOME/.local/bin
 # lazy loading the bash completions does not save us meaningful shell startup time, so we won't do it
 export NVM_DIR="$HOME/.nvm"
 # add our default nvm node (`nvm alias default 10.16.0`) to path without loading nvm
-export PATH="$NVM_DIR/versions/node/v14.3.0/bin:$PATH"
+export PATH="$NVM_DIR/versions/node/v14.8.0/bin:$PATH"
 # alias `nvm` to this one liner lazy load of the normal nvm script
 alias nvm="unalias nvm; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; nvm $@"
 
@@ -161,7 +161,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64:$LD_LIBRARY_PATH
 
 # fix xclip throwing an error on shell startup when the clipboard is empty
 # see: https://github.com/astrand/xclip/issues/38
-echo tmp | xclip -i
+echo tmp | xclip -i -selection c
 
 # save path on cd
 function cd {
@@ -170,6 +170,25 @@ function cd {
 }
 
 # restore last saved path
-if [ -f ~/.last_dir ]
-    then cd `cat ~/.last_dir`
-fi
+#if [ -f ~/.last_dir ]
+    #then cd `cat ~/.last_dir`
+#fi
+
+# place virtual environments created by pipenv in project folder
+export PIPENV_VENV_IN_PROJECT=1
+
+export JAVA_HOME='/usr/lib/jvm/java-11-openjdk-amd64'
+
+# Import colorscheme from 'wal' asynchronously
+# &   # Run the process in the background.
+# ( ) # Hide shell job control messages.
+# colors are hardcoded into kitty right now to avoid 
+# loading problems with ranger
+#(cat ~/.cache/wal/sequences &)
+
+#ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=blue
+#ZSH_HIGHLIGHT_STYLES[precommand]=fg=blue
+#ZSH_HIGHLIGHT_STYLES[arg0]=fg=blue
+
+# set bat theme
+#export BAT_THEME="ansi-dark"

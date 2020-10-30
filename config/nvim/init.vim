@@ -38,7 +38,8 @@ Plug 'scrooloose/nerdtree'  "file tree
 Plug 'morhetz/gruvbox'  "gruvbox color scheme
 Plug 'mbbill/undotree'  "changes tree
 " Plug 'valloric/youcompleteme'  "autocompletion
-Plug 'vim-airline/vim-airline'  "status bar
+"Plug 'vim-airline/vim-airline'  "status bar
+Plug 'itchyny/lightline.vim'
 "Plug 'ctrlpvim/ctrlp.vim'  "file finder
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -49,13 +50,23 @@ Plug 'majutsushi/tagbar'  "ctags
 Plug 'preservim/nerdcommenter'  "commenting
 Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
 Plug 'airblade/vim-gitgutter'
-Plug 'ayu-theme/ayu-vim'
+" Plug 'ayu-theme/ayu-vim'
+Plug 'Chiel92/vim-autoformat'
+Plug 'psf/black', { 'tag': '19.10b0' }
+Plug 'dylanaraps/wal.vim'
+Plug 'udalov/kotlin-vim'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'JamshedVesuna/vim-markdown-preview'
 
 call plug#end()
 
 "set termguicolors
 "let ayucolor="mirage"
 colorscheme gruvbox  "set colorscheme
+"colorscheme wal
+let g:lightline = {
+      \ 'colorscheme': 'jellybeans',
+      \ }
 
 " make colorscheme background transparent to use default terminal background
 hi Normal guibg=None ctermbg=None  
@@ -64,7 +75,8 @@ hi Normal guibg=None ctermbg=None
 hi CursorLineNr ctermbg=None guibg=None
 
 " fix background color of split lines with transparent background
-hi VertSplit ctermbg=None
+hi VertSplit ctermbg=None ctermfg=0
+"set fillchars+=vert:\|
 
 " make the bar displaying erros transparent
 hi SignColumn ctermbg=None guibg=None
@@ -74,12 +86,18 @@ hi GitGutterAdd    guibg=None ctermbg=None guifg=#009900 ctermfg=2
 hi GitGutterChange guibg=None ctermbg=None guifg=#bbbb00 ctermfg=3
 hi GitGutterDelete guibg=None ctermbg=None guifg=#ff2222 ctermfg=1
 
+" fix highlighted lines with error for transparent background
+hi CocErrorSign ctermbg=None ctermfg=Red
+hi CocWarningSign ctermbg=None ctermfg=Brown
+hi CocInfoSign ctermbg=None ctermfg=Yellow
+hi CocHintSign ctermbg=None ctermfg=Blue
+
 " always show the sign column to avoid text moving
 set signcolumn=yes
 
 " open nerdtree automatically even when no files are specified
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 let NERDTreeMapActivateNode = "l" 
 let NERDTreeMapCloseDir = "h"
@@ -103,8 +121,6 @@ nnoremap <leader>v :wincmd v \| wincmd l<CR>
 nnoremap <leader>t :TagbarToggle<CR>
 nnoremap <silent> <leader>+ :vertical resize +5<CR>
 nnoremap <silent> <leader>- :vertical resize -5<CR>
-" use GFiles if in repository, else Files
-nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':Files' : ':GFiles')."\<cr>"
 
 " open definition in a new tab
 "nnoremap <silent> <leader>vgt :vsplit \| :wincmd l \| YcmCompleter GoTo<CR>
@@ -127,6 +143,8 @@ endfunction
 " coc goto code navigation
 nmap <silent> <leader>gd <Plug>(coc-definition)
 nmap <silent> <leader>gr <Plug>(coc-references)
+nmap <silent> <leader>e <Plug>(coc-diagnostic-next)
+nmap <silent> <leader><S-e> <Plug>(coc-diagnostic-prev)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -149,7 +167,10 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
 
 " coc open definition in a new tab
-nnoremap <silent> <leader>gv :vsplit \| wincmd l \| <Plug>(coc-definition)<CR>
+nmap <silent> <leader>gv :vsplit \| :wincmd l<CR><Plug>(coc-definition)
+" this does the same but opens the definition in the current window
+" and not the new one on the right
+"nnoremap <silent> <leader>gv :call CocAction('jumpDefinition', 'vsplit')<CR>
 
 " block jump using curly braces
 nnoremap <silent> <S-j> }
@@ -196,3 +217,29 @@ let $FZF_DEFAULT_OPTS='--reverse'
 
 " show documentation in preview window
 nnoremap <silent> <leader>b :call <SID>show_documentation()<CR>
+
+" Format Python file on save with black
+autocmd BufWritePre *.py execute ':Black'
+
+" autoformat on save
+"au BufWrite * :Autoformat
+
+" disable command history (q:) to not open it accidentally
+nnoremap q: <nop>
+
+" fzf default command for :Files
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -l -g ""'
+" use GFiles if in repository, else Files
+" nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':Files' : ':GFiles')."\<cr>"
+nnoremap <C-p> :Files<CR>
+nnoremap <leader>a :Ag<CR>
+
+" use googles java formatter
+let g:formatdef_google_java = '"java -jar /home/alex/software/bin/google-java-format-1.9-all-deps.jar -"'
+let g:formatters_java = ['google_java']
+
+" use tabsize of 2 for java files to match the google java formatter
+autocmd FileType java setlocal shiftwidth=2 tabstop=2 softtabstop=2
+
+" automatically format java files on save
+"autocmd BufWritePre *.java execute ':Autoformat'
