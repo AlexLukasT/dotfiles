@@ -19,9 +19,4 @@ alias tensorboard="/usr/bin/python3 /home/alex/.local/lib/python3.8/site-package
 alias z="zathura"
 alias cv="cd $(sv)"
 alias term="alacritty"
-
-nas_mount() {
-    sudo mount -t cifs //192.168.178.149/$1 /home/alex/incoretex/mounts/$1 -o 'vers=2.0,gid=1000,uid=1000,credentials=/root/.smbcredentials_alex'
-}
-
-
+alias cdl="cd `cat ~/.last_dir`"

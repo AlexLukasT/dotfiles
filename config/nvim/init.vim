@@ -50,6 +50,7 @@ Plug 'preservim/nerdcommenter'  "commenting
 Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
 Plug 'airblade/vim-gitgutter'
 Plug 'ayu-theme/ayu-vim'
+Plug 'psf/black', { 'branch': 'stable' }
 
 call plug#end()
 
@@ -78,8 +79,8 @@ hi GitGutterDelete guibg=None ctermbg=None guifg=#ff2222 ctermfg=1
 set signcolumn=yes
 
 " open nerdtree automatically even when no files are specified
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 let NERDTreeMapActivateNode = "l" 
 let NERDTreeMapCloseDir = "h"
@@ -196,3 +197,6 @@ let $FZF_DEFAULT_OPTS='--reverse'
 
 " show documentation in preview window
 nnoremap <silent> <leader>b :call <SID>show_documentation()<CR>
+
+" autoformat python files on save
+autocmd BufWritePre *.py execute ':Black'

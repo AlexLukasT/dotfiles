@@ -177,6 +177,7 @@ for_window [class=".*"] border pixel 0
 
 # gaps between windows
 gaps inner 20
+smart_gaps on
 
 # rounded corner radius
 border_radius 0

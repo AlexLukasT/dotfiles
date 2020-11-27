@@ -161,7 +161,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64:$LD_LIBRARY_PATH
 
 # fix xclip throwing an error on shell startup when the clipboard is empty
 # see: https://github.com/astrand/xclip/issues/38
-echo tmp | xclip -i
+echo tmp | xclip -i -selection c
 
 # save path on cd
 function cd {
@@ -170,6 +170,9 @@ function cd {
 }
 
 # restore last saved path
-if [ -f ~/.last_dir ]
-    then cd `cat ~/.last_dir`
-fi
+#if [ -f ~/.last_dir ]
+    #then cd `cat ~/.last_dir`
+#fi
+
+# place virtual environments created by pipenv in project folder
+export PIPENV_VENV_IN_PROJECT=1
