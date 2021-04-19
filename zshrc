@@ -134,7 +134,7 @@ export PATH=$PATH:$HOME/.local/bin
 export NVM_DIR="$HOME/.nvm"
 # add our default nvm node (`nvm alias default 10.16.0`) to path without loading nvm
 export PATH="$NVM_DIR/versions/node/v14.8.0/bin:$PATH"
-# alias `nvm` to this one liner lazy load of the normal nvm script
+#  alias `nvm` to this one liner lazy load of the normal nvm script
 alias nvm="unalias nvm; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; nvm $@"
 
 # change color of suggestions to have a larger contrast to the background
@@ -156,12 +156,26 @@ export LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64:$LD_LIBRARY_PATH
 #set -o vi
 
 # remap keys for accepting autosuggestions
-#bindkey 'K' autosuggest-accept
-#bindkey 'L' autosuggest-execute
+bindkey '^K' autosuggest-accept
+bindkey '^L' autosuggest-execute
+
+# define function that retrieves and runs last command
+function run-again {
+    # get previous history item
+    zle up-history
+    # confirm command
+    zle accept-line
+}
+
+# define run-again widget from function of the same name
+zle -N run-again
+
+# bind widget to Ctrl+X in
+bindkey '^X' run-again
 
 # fix xclip throwing an error on shell startup when the clipboard is empty
 # see: https://github.com/astrand/xclip/issues/38
-echo tmp | xclip -i -selection c
+# echo tmp | xclip -i -selection c
 
 # save path on cd
 function cd {
@@ -177,6 +191,7 @@ function cd {
 # place virtual environments created by pipenv in project folder
 export PIPENV_VENV_IN_PROJECT=1
 
+# use java 11
 export JAVA_HOME='/usr/lib/jvm/java-11-openjdk-amd64'
 
 # Import colorscheme from 'wal' asynchronously
@@ -192,3 +207,11 @@ export JAVA_HOME='/usr/lib/jvm/java-11-openjdk-amd64'
 
 # set bat theme
 #export BAT_THEME="ansi-dark"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# fzf options
+export FZF_DEFAULT_OPTS='--layout=reverse -e'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
+
+export PATH=$PATH:/home/alex/software/bin

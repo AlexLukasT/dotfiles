@@ -2,26 +2,22 @@ alias ls="ls --group-directories-first --color=auto"
 alias l="ls"
 alias la="ls -A"
 alias v="nvim"
-alias ssh="TERM=xterm ssh"
-alias nexus-manager="ssh -N -L 8081:127.0.0.1:8081 pi@maven-repository-pi"
-alias keyboard-layout="setxkbmap de"
-alias mount_usb="sudo mount -o gid=users,fmask=113,dmask=002 /dev/sdb1 /mnt/usb"
-alias umount_usb="sudo umount /dev/sdb1 /mnt/usb"
 alias ipy="ipython"
-alias vnc-viewer="$HOME/software/vnc-viewer/VNC-Viewer-6.20.529-Linux-x64"
-alias ra=". ranger"
 alias sc="xclip -selection c"
 alias sv="xclip -selection c -o"
 alias feh="feh --scale-down --auto-zoom"
-alias fusermount="fusermount3"
 alias scan_local="sudo nmap -sn 192.168.178.0/24"
-alias tensorboard="/usr/bin/python3 /home/alex/.local/lib/python3.8/site-packages/tensorboard/main.py"
 alias z="zathura"
 alias cv="cd $(sv)"
-alias term="alacritty"
+alias settings="env XDG_CURRENT_DESKTOP=GNOME gnome-control-center"
+alias ra=". ranger"
+alias ssh="kitty +kitten ssh"
+alias python="python3"
+alias pip="pip3"
+alias cdl="cd `cat ~/.last_dir`"
+alias lsdev="diff <(ls /dev) <(sleep 5 && ls /dev)"
 
-nas_mount() {
-    sudo mount -t cifs //192.168.178.149/$1 /home/alex/incoretex/mounts/$1 -o 'vers=2.0,gid=1000,uid=1000,credentials=/root/.smbcredentials_alex'
+activate () {
+    source /home/alex/venvs/$1/bin/activate
 }
-
 

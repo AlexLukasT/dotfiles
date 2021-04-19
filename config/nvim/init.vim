@@ -23,6 +23,10 @@ set hidden
 set number relativenumber
 set nu rnu
 
+" when a file is open in vim and edited elsewhere read it again,
+" this is usually the case when making changes with git outside of vim
+set autoread
+
 " Uncomment the following to have Vim jump to the last position when                                                       
 " reopening a file
 if has("autocmd")
@@ -57,6 +61,14 @@ Plug 'dylanaraps/wal.vim'
 Plug 'udalov/kotlin-vim'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'JamshedVesuna/vim-markdown-preview'
+Plug 'puremourning/vimspector'
+Plug 'skywind3000/asyncrun.vim'
+" rainbow brackets
+Plug 'luochen1990/rainbow'
+" html snippets
+Plug 'mattn/emmet-vim'
+"Plug 'JalaiAmitahl/maven-compiler.vim'
+"Plug 'mikelue/vim-maven-plugin'
 
 call plug#end()
 
@@ -164,7 +176,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " mappings for coc list
 " Show all diagnostics.
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <leader>d  :<C-u>CocList diagnostics<CR>
 
 " coc open definition in a new tab
 nmap <silent> <leader>gv :vsplit \| :wincmd l<CR><Plug>(coc-definition)
@@ -185,11 +197,6 @@ vnoremap K :m '<-2<CR>gv=gv
 
 vmap <silent> <leader># <plug>NERDCommenterToggle<CR>
 nmap <silent> <leader># <plug>NERDCommenterToggle<CR>
-
-" automatic docstring generation in Python
-nmap <silent> <leader>d <Plug>(pydocstring)
-let g:pydocstring_formatter = 'numpy'
-let g:pydocstring_doq_path = '/home/alex/.local/bin/doq'
 
 " run current python file
 autocmd FileType python map <buffer> <F5> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
@@ -238,8 +245,61 @@ nnoremap <leader>a :Ag<CR>
 let g:formatdef_google_java = '"java -jar /home/alex/software/bin/google-java-format-1.9-all-deps.jar -"'
 let g:formatters_java = ['google_java']
 
-" use tabsize of 2 for java files to match the google java formatter
-autocmd FileType java setlocal shiftwidth=2 tabstop=2 softtabstop=2
-
 " automatically format java files on save
-"autocmd BufWritePre *.java execute ':Autoformat'
+let java_autoformat_on_save = 1
+autocmd BufWritePre *.java execute ':Autoformat'
+
+function JavaStartDebug()
+    " due to a bug with vimspector ignoring the host configuration, the port
+    " from the remote machine is forwarded first
+    :AsyncRun ssh -N -L 5005:127.0.0.1:5005 host@remote
+    :CocCommand java.debug.vimspector.start
+endfunction
+
+" start and close the remote java debugger using vimspector and coc-java-debug
+" plugin
+nmap <F1> :call JavaStartDebug()<CR>
+nmap <F2> :VimspectorReset<CR>
+let g:vimspector_enable_mappings = 'HUMAN'
+
+" reverse text by visually selecting it and pressing ;rv
+" see: https://vim.fandom.com/wiki/Reverse_selected_text
+vnoremap ;rv c<C-O>:set revins<CR><C-R>"<Esc>:set norevins<CR>
+
+" align comment delimiters on the left instead of following code indentation,
+" this is especially necessary for Python because else Black will remove the
+" indentation when formatting
+let g:NERDDefaultAlign = "left"
+
+" Remove all trailing whitespace by pressing F7
+" from: https://vim.fandom.com/wiki/Remove_unwanted_spaces#Simple_commands_to_remove_unwanted_whitespace
+nnoremap <F7> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+" Remove all  (Hold Ctrl and press v followed by m), aka Windows newlines,
+" by pressing F8
+" from: https://stackoverflow.com/a/5843561
+nnoremap <F10> :%s///g<CR>
+
+" enable rainbow paranthesis
+let g:rainbow_active = 1
+
+" use tabsize of 2
+autocmd FileType java,html,javascript,css,sh,bash,yaml,json,vim,xml setlocal shiftwidth=2 tabstop=2 softtabstop=2
+
+" compiler command to be run with :make for maven projects
+"set makeprg=mvn\ -q\ -B\ clean\ compile\ exec:exec
+" errorformat for maven projects from https://stackoverflow.com/a/13475393
+"set errorformat=[ERROR]\ %f:[%l\\,%v]\ %m
+
+" scrolling remapped
+nnoremap <C-j> <C-d>
+nnoremap <C-k> <C-u>
+
+" vscode like behaviour for ctrl+d
+nmap <expr> <silent> <C-d> <SID>select_current_word()
+function! s:select_current_word()
+  if !get(b:, 'coc_cursors_activated', 0)
+    return "\<Plug>(coc-cursors-word)"
+  endif
+  return "*\<Plug>(coc-cursors-word):nohlsearch\<CR>"
+endfunc

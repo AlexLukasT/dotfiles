@@ -30,7 +30,8 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec kitty
+bindsym $mod+Shift+Return exec "kitty ipython"
 
 # kill focused window
 bindsym $mod+w kill
@@ -81,7 +82,7 @@ bindsym $mod+f fullscreen toggle
  bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+f floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -132,7 +133,7 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+#bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
@@ -169,47 +170,34 @@ mode "resize" {
 #        status_command i3status
 #	}
 
-# set keyboard layout to german
-exec --no-startup-id "setxkbmap de -option 'grp:alt_shift_toggle'"
-
 # remove window borders
 for_window [class=".*"] border pixel 0
 
 # gaps between windows
 gaps inner 20
+smart_gaps on
 
 # rounded corner radius
 border_radius 0
 
-# Audio key controls, see archwiki "advanced linux sound architecture"
-bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer set Master 5%+"
-bindsym XF86AudioLowerVolume exec --no-startup-id "amixer set Master 5%-"
-bindsym XF86AudioMute exec --no-startup-id "amixer set Master toggle"
-
-# Background light controls
-bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 20" 
-bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 20" 
-
 # set background image
-exec --no-startup-id "feh --bg-fill ~/git/dotfiles/background.jpg"
+exec --no-startup-id "feh --bg-fill /home/alex/Pictures/landscape.jpg"
 
 # run rofi launcher
-bindsym $mod+r exec --no-startup-id "rofi -show drun -modi drun"
+bindsym $mod+r exec --no-startup-id "rofi -show drun -modi drun -theme /home/alex/.cache/wal/colors-rofi-dark.rasi"
 
 # start polybar
-exec --no-startup-id "polybar top"
-
-# start fusuma for multitouch gestures
-exec --no-startup-id "/home/alex/.gem/ruby/2.7.0/bin/fusuma"
+exec --no-startup-id "killall polybar; polybar -c ~/.config/polybar/config.ini main"
 
 # start compton
-exec --no-startup-id "compton -b --config /home/alex/.config/compton/compton.conf"
+exec --no-startup-id "picom -b --config /home/alex/.config/picom/picom.conf"
 
 # lock the screen, shutdown and reboot
-bindsym $mod+Mod1+l exec --no-startup-id "$HOME/git/dotfiles/scripts/lock.sh -l blur"
-bindsym $mod+Mod1+s exec --no-startup-id systemctl poweroff
+bindsym $mod+Mod1+l exec --no-startup-id i3lock-fancy
+bindsym $mod+Mod1+p exec --no-startup-id systemctl poweroff
 bindsym $mod+Mod1+r exec --no-startup-id systemctl reboot
 bindsym $mod+Mod1+e exec --no-startup-id i3-msg exit
+bindsym $mod+Mod1+s exec --no-startup-id systemctl suspend
 
 # pressing windows+s activates spotify mode
 #bindsym $mod+s mode "spotify"
@@ -228,21 +216,43 @@ bindsym $mod+Ctrl+Down resize shrink height 1 px or 1 ppt
 bindsym $mod+Ctrl+Left resize grow width 1 px or 1 ppt
 
 # assign different workspaces to monitors
-workspace 1 output HDMI-2
-workspace 2 output DP-1
-workspace 3 output HDMI-2
-workspace 4 output DP-1
-workspace 5 output HDMI-2
-workspace 6 output DP-1
-workspace 7 output HDMI-2
-
-# adjust monitor setup with xrandr for work 
-exec --no-startup-id "/usr/bin/python3 /home/alex/git/dotfiles/scripts/setup_monitors.py"
+workspace 1 output HDMI-0
+workspace 2 output DP-5
+workspace 3 output HDMI-0
+workspace 4 output DP-5
+workspace 5 output HDMI-0
+workspace 6 output DP-5
+workspace 7 output HDMI-0
 
 # start owncloud-client for sciebo sync
 exec --no-startup-id "/usr/bin/owncloud"
 
-# start dunst notification manager
-exec --no-startup-id "/usr/bin/dunst"
-
 bindsym $mod+p exec --no-startup-id "polybar-msg cmd toggle"
+
+# hide the mouse pointer after a few seconds of idle time
+exec --no-startup-id "unclutter"
+
+# navigate next/previous workspace
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
+
+# access gnome settings
+bindsym $mod+c exec --no-startup-id "env XDG_CURRENT_DESKTOP=GNOME gnome-control-center"
+
+bindsym mod+Shift+r exec --no-startup-id "rofi -show find -modi find:/home/alex/scripts/rofi-finder.sh"
+
+# load a custom us keymap that maps AltGr + a/u/o/s to ä/ü/ö/ß
+# the configuration file can be found at /usr/share/X11/xkb/symbols/usde
+# from: https://blog.lobraun.de/2020/03/09/Umlauts-on-US-Keyboard-Layouts-on-Ubuntu-with-XKB/
+exec --no-startup-id "setxkbmap -layout usde"
+
+# Media volume controls
+bindsym XF86AudioMute exec amixer -D pulse sset 'Master' toggle
+bindsym XF86AudioLowerVolume exec amixer sset 'Master' 5%-
+bindsym XF86AudioRaiseVolume exec amixer sset 'Master' 5%+
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
