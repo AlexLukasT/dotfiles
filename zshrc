@@ -212,6 +212,13 @@ export JAVA_HOME='/usr/lib/jvm/java-11-openjdk-amd64'
 
 # fzf options
 export FZF_DEFAULT_OPTS='--layout=reverse -e'
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
+# use ag for faster file search
+#export FZF_CTRL_T_COMMAND='ag --ignore *data* -l -g ""'
+#export FZF_ALT_C_COMMAND='ag --ignore *data* -l -g ""'
+export FZF_CTRL_T_COMMAND='fd --type f --exclude *data*'
+export FZF_ALT_C_COMMAND='fd --type d --exclude *data*'
 
 export PATH=$PATH:/home/alex/software/bin
+
+# add maven to path
+export PATH=/opt/apache-maven-3.8.1/bin:$PATH
