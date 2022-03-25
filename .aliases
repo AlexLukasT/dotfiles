@@ -1,0 +1,8 @@
+alias ls="ls --group-directories-first --color=auto"
+alias l="ls"
+alias la="ls -A"
+alias v="nvim"
+alias ipy="ipython"
+alias ssh="kitty +kitten ssh"
+alias z="zathura"
+alias dotgit="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
