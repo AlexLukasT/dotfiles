@@ -141,7 +141,10 @@ source /usr/share/fzf/completion.zsh
 
 # fzf options
 export FZF_DEFAULT_OPTS='--layout=reverse -e'
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
+#export FZF_CTRL_T_COMMAND='ag --ignore *data* -l -g ""'
+#export FZF_ALT_C_COMMAND='ag --ignore *data* -l -g ""'
+export FZF_CTRL_T_COMMAND='fd --type f --exclude *data* --hidden'
+export FZF_ALT_C_COMMAND='fd --type d --exclude *data*'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
