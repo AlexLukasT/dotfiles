@@ -7,6 +7,9 @@ source $HOME/.config/nvim/plugins.vim
 " color scheme, status line, etc.
 source $HOME/.config/nvim/appearance.vim
 
+" nvim tree file explorer
+source $HOME/.config/nvim/nvimtree.vim
+
 " keyboard shortcuts
 source $HOME/.config/nvim/shortcuts.vim
 

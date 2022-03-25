@@ -22,15 +22,9 @@ nnoremap <CR> :noh<CR><CR>
 
 " lsp mappings
 nnoremap <silent> <leader>gd    <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> <leader>K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> <leader>gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <leader>gs    <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> <leader>gt    <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> <leader>gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> <leader>g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> <leader>gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-nnoremap <silent> <leader>gd    <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> <leader>ca    <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <silent> <leader>i     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <leader>gr    <cmd>:Telescope lsp_references<CR>
+nnoremap <silent> <leader>ca    <cmd>:telescope lsp_code_actions<CR>
 nnoremap <silent> <leader>d     <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
 " Goto previous/next diagnostic warning/error
 nnoremap <silent> <leader>E     <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
@@ -72,5 +66,10 @@ nnoremap q: <nop>
 " do not create default mappings for nerdcommenter
 let g:NERDCreateDefaultMappings = 0
 
-nnoremap <C-p> :Telescope find_files<CR>
-nnoremap <leader>a :Ag<CR>
+" only open a small window without preview for selecting files
+nnoremap <C-p> <cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<CR>
+nnoremap <leader>a :Telescope live_grep<CR>
+nnoremap <leader>b :Telescope buffers<CR>
+nnoremap <leader>w :Telescope grep_string<CR>
+nnoremap <leader>gb :Telescope git_branches<CR>
+nnoremap <leader>gc :Telescope git_commits<CR>
