@@ -44,6 +44,6 @@ Plug 'Yggdroot/indentLine'
 Plug 'p00f/nvim-ts-rainbow'
 
 " Prettier
-Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+Plug 'sbdchd/neoformat'
 
 call plug#end()

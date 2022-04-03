@@ -57,6 +57,17 @@ set backupcopy=yes
 " Disable quote concealing in JSON files
 let g:vim_json_conceal=0
 
-" enable prettier
-let g:prettier#autoformat = 1
-let g:prettier#autoformat_require_pragma = 0
+" Autoformat on save
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
+
+" Formatters
+" Prettier: npm i -g prettier
+let g:neoformat_enabled_javascript= ['prettier']
+let g:neoformat_enabled_javascriptreact = ['prettier']
+let g:neoformat_enabled_typescript= ['prettier']
+let g:neoformat_enabled_typescriptreact = ['prettier']
+
+
